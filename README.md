@@ -1,10 +1,16 @@
 ## Project Management installation
 
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
+### Requirements:
+- php version 8.1 or above.
+- composer install
+. create .env file and cpy to env.example into .env directory
+- php artisan migrate
+- php artisan db:seed
+- php artisan serve
 
-### Premium Partners
+### User credentials:
+login: Admin User
+username: admin@gmail.com
+password: 12345678
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
 
