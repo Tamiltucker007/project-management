@@ -16,7 +16,7 @@ class RoleSeeder extends Seeder
     {
         // Define roles
         Role::findOrCreate('admin', 'web');
-        Role::findOrCreate('project-manager', 'web');
-        Role::findOrCreate('team-member', 'web');
+        // Role::findOrCreate('project-manager', 'web');
+        // Role::findOrCreate('team-member', 'web');
     }
 }
