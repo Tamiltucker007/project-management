@@ -27,20 +27,16 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/dashboard', function () {
         return view('dashboard');
     })->name('dashboard');
-    
-    Route::resource('projects', ProjectController::class);
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-
-});
-
+    
     // Admin routes
-    // Route::middleware(['role:admin'])->group(function () {
-    //     Route::resource('projects', ProjectController::class);
-    //     Route::resource('tasks', TaskController::class);
-    //     Route::resource('users', UserController::class);
-    // });
+    Route::middleware(['role:admin'])->group(function () {
+        Route::resource('projects', ProjectController::class);
+        Route::resource('tasks', TaskController::class);
+        Route::resource('users', UserController::class);
+    });
 
-    // // Project Manager routes
+     // Project Manager routes
     // Route::middleware(['role:project-manager'])->group(function () {
     //     Route::resource('projects', ProjectController::class)->except(['destroy']);
     //     Route::resource('tasks', TaskController::class)->except(['destroy']);
@@ -54,4 +50,6 @@ Route::middleware(['auth'])->group(function () {
     //     Route::get('tasks/{task}', [TaskController::class, 'show'])->name('tasks.show');
     //     Route::patch('tasks/{task}', [TaskController::class, 'update'])->name('tasks.update');
     // });
+});
+    
 

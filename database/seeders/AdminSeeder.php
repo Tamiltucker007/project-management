@@ -15,7 +15,7 @@ class AdminSeeder extends Seeder
      */
     public function run(): void
     {
-        // Create admin user if not exists
+        // Create admin user 
         $admin = User::firstOrCreate(
             ['email' => 'admin@gmail.com'],
             [
@@ -24,12 +24,9 @@ class AdminSeeder extends Seeder
             ]
         );
 
-        $permissions = Permission::pluck('id','id')->all();
-
-        // Assign admin role to the user
-        $adminRole = Role::where('name', 'admin')->first();
-        $adminRole->syncPermissions($permissions);
-        $admin->assignRole($adminRole);
-
+        // Assign the admin role to the user
+        $admin->assignRole('admin');
+        $permissions = $admin->getPermissionsViaRoles(); 
+        $admin->syncPermissions($permissions);
     }
 }
