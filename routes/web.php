@@ -27,29 +27,30 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/dashboard', function () {
         return view('dashboard');
     })->name('dashboard');
+
+    // Dashboard
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
     
-    // Admin routes
+    // Admin 
     Route::middleware(['role:admin'])->group(function () {
         Route::resource('projects', ProjectController::class);
         Route::resource('tasks', TaskController::class);
         Route::resource('users', UserController::class);
     });
 
-     // Project Manager routes
-    // Route::middleware(['role:project-manager'])->group(function () {
-    //     Route::resource('projects', ProjectController::class)->except(['destroy']);
-    //     Route::resource('tasks', TaskController::class)->except(['destroy']);
-    // });
+     // Project Manager 
+    Route::middleware(['role:project-manager'])->group(function () {
+        Route::resource('projects', ProjectController::class)->except(['destroy']);
+        Route::resource('tasks', TaskController::class)->except(['destroy']);
+    });
 
-    // // Team Member routes
-    // Route::middleware(['role:team-member'])->group(function () {
-    //     Route::get('projects', [ProjectController::class, 'index'])->name('projects.index');
-    //     Route::get('projects/{project}', [ProjectController::class, 'show'])->name('projects.show');
-    //     Route::get('tasks', [TaskController::class, 'index'])->name('tasks.index');
-    //     Route::get('tasks/{task}', [TaskController::class, 'show'])->name('tasks.show');
-    //     Route::patch('tasks/{task}', [TaskController::class, 'update'])->name('tasks.update');
-    // });
+    // Team Member 
+    Route::middleware(['role:team-member'])->group(function () {
+        Route::get('projects', [ProjectController::class, 'index'])->name('projects.index');
+        Route::get('projects/{project}', [ProjectController::class, 'show'])->name('projects.show');
+        Route::get('tasks', [TaskController::class, 'index'])->name('tasks.index');
+        Route::get('tasks/{task}', [TaskController::class, 'show'])->name('tasks.show');
+    });
 });
     
 
