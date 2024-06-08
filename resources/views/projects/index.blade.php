@@ -7,7 +7,7 @@
                 <div class="card w-100">
                     <div class="card-header d-flex justify-content-between align-items-center">
                         Projects
-                        <a href="{{ route('projects.create') }}" class="btn btn-sm btn-primary">Add New User</a>
+                        <a href="{{ route('projects.create') }}" class="btn btn-sm btn-primary">Add New Project</a>
                     </div>
 
                     <div class="card-body">

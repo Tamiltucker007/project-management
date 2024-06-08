@@ -26,6 +26,18 @@
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
                             </div>
+                            <div class="mb-3">
+                                <label for="user_id" class="form-label">Assigned Team Member</label>
+                                <select class="form-select @error('user_id') is-invalid @enderror" aria-label="Default select example" id="user_id" name="user_id">
+                                    <option value="" selected>Select Team Member</option>
+                                    @foreach ($teamMembers as $teamMember)
+                                        <option value="{{ $teamMember->id }}">{{ $teamMember->name }}</option>
+                                    @endforeach
+                                </select>
+                                @error('user_id')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                            </div>
                             <div class="row">
                                 <div class="col-md-6 mb-3">
                                     <label for="start_date" class="form-label">Start Date</label>

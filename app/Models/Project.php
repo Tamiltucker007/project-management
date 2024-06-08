@@ -12,7 +12,7 @@ class Project extends Model
     use HasFactory, SoftDeletes;
 
     protected $fillable = [
-        'name', 'description', 'start_date', 'end_date',
+        'name', 'user_id', 'description', 'start_date', 'end_date',
     ];
 
     protected $dates = ['deleted_at'];  
@@ -22,9 +22,9 @@ class Project extends Model
         return $this->hasMany(Task::class);
     }
 
-    public function teamMembers()
+    public function teamMember()
     {
-        return $this->belongsToMany(User::class, 'project_user');
+        return $this->belongsTo(User::class, 'project_user');
     }
 
     public function scopeNotDeleted($query)

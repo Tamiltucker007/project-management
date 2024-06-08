@@ -18,6 +18,7 @@ class ProjectRequest extends FormRequest
     {
         return [
             'name' => 'required|string|max:255',
+            'user_id' => 'required|string|max:255',
             'start_date' => 'required|date',
             'end_date' => 'required|date|after:start_date',
             'description' => 'required|string|max:255',
@@ -28,6 +29,7 @@ class ProjectRequest extends FormRequest
     {
         return [
             'name.required' => 'Please enter project name.',
+            'user_id.required' => 'Please Assign the Team Member.',
             'start_date.required' => 'Please select start date.',
             'end_date.required' => 'Please select end date.',
             'end_date.after' => 'End date must be after start date.',

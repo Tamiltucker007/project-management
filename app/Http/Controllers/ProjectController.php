@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use App\DataTables\ProjectDataTable;
 use App\Http\Requests\ProjectRequest;
 use App\Models\Project;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Spatie\Permission\Models\Role;
 
 class ProjectController extends Controller
 {
@@ -23,7 +25,9 @@ class ProjectController extends Controller
 
     public function create()
     {
-        return view('projects.create');
+        $teamMembers = $this->getTeamMember();
+
+        return view('projects.create', compact('teamMembers'));
     }
 
     public function store(ProjectRequest $request)
@@ -38,8 +42,12 @@ class ProjectController extends Controller
     public function edit($id)
     {
         $project = Project::findOrFail($id);
-    
-        return view('projects.edit', compact('project'));
+
+        $teamMembers = $this->getTeamMember();
+
+        // dd($teamMembers);
+
+        return view('projects.edit', compact('project','teamMembers'));
     }
 
     public function show($id)
@@ -64,5 +72,13 @@ class ProjectController extends Controller
 
         return response()->json(['success' => 'Project deleted successfully.']);
     }
+    
+    public function getTeamMember() {
+        $teamMemberRole = Role::where('name', 'team-member')->first();
 
+        // Get all users with the "team-member" role
+       return  User::whereHas('roles', function ($query) use ($teamMemberRole) {
+            $query->where('role_id', $teamMemberRole->id);
+        })->get();
+    }
 }
