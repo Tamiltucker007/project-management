@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\DataTables\ProjectDataTable;
 use App\Http\Requests\ProjectRequest;
 use App\Models\Project;
 use Illuminate\Http\Request;
@@ -15,11 +16,9 @@ class ProjectController extends Controller
     //     // $this->middleware('role:team-member')->only(['index', 'show']);
     // }
 
-    public function index()
+    public function index(ProjectDataTable $dataTable)
     {
-        $projects = Project::all();
-
-        return view('projects.index', compact('projects'));
+        return $dataTable->render('projects.index');
     }
 
     public function create()
@@ -63,6 +62,7 @@ class ProjectController extends Controller
         $project = Project::findOrFail($id);
         $project->delete();
 
-        return redirect()->route('projects.index')->with('success', 'Project deleted successfully.');
+        return response()->json(['success' => 'Project deleted successfully.']);
     }
+
 }
