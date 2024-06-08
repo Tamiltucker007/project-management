@@ -2,65 +2,68 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Task;
 use Illuminate\Http\Request;
 
 class TaskController extends Controller
 {
+
     public function __construct()
     {
-        $this->middleware('role:Admin|Project Manager')->except(['index', 'show', 'update']);
-        $this->middleware('role:Admin|Project Manager|Team Member')->only(['index', 'show', 'update']);
+        $this->middleware('role:admin|role:project-manager')->only(['index','create','store','edit', 'show', 'update','destory']);
     }
-
+    /**
+     * Display a listing of the resource.
+     */
     public function index()
     {
-        $tasks = Task::with(['project', 'assignedUser'])->get();
-        return response()->json($tasks);
+        dd("hai");
     }
 
+    /**
+     * Show the form for creating a new resource.
+     */
+    public function create()
+    {
+        //
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     */
     public function store(Request $request)
     {
-        $request->validate([
-            'project_id' => 'required|exists:projects,id',
-            'assigned_to' => 'required|exists:users,id',
-            'title' => 'required|string|max:255',
-            'description' => 'nullable|string',
-            'deadline' => 'nullable|date',
-        ]);
-
-        $task = Task::create($request->all());
-
-        return response()->json($task, 201);
+        //
     }
 
-    public function show($id)
+    /**
+     * Display the specified resource.
+     */
+    public function show(string $id)
     {
-        $task = Task::with(['project', 'assignedUser'])->findOrFail($id);
-        return response()->json($task);
+        //
     }
 
-    public function update(Request $request, $id)
+    /**
+     * Show the form for editing the specified resource.
+     */
+    public function edit(string $id)
     {
-        $task = Task::findOrFail($id);
-
-        $request->validate([
-            'title' => 'sometimes|required|string|max:255',
-            'description' => 'nullable|string',
-            'deadline' => 'nullable|date',
-            'is_completed' => 'nullable|boolean',
-        ]);
-
-        $task->update($request->all());
-
-        return response()->json($task);
+        //
     }
 
-    public function destroy($id)
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update(Request $request, string $id)
     {
-        $task = Task::findOrFail($id);
-        $task->delete();
+        //
+    }
 
-        return response()->json(null, 204);
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy(string $id)
+    {
+        //
     }
 }

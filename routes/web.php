@@ -38,19 +38,19 @@ Route::middleware(['auth'])->group(function () {
         Route::resource('users', UserController::class);
     });
 
-     // Project Manager 
-    Route::middleware(['role:project-manager'])->group(function () {
-        Route::resource('projects', ProjectController::class)->except(['destroy']);
-        Route::resource('tasks', TaskController::class)->except(['destroy']);
-    });
+    //  // Project Manager 
+    // Route::middleware(['role:project-manager'])->group(function () {
+    //     Route::resource('projects', ProjectController::class)->except(['destroy']);
+    //     Route::resource('tasks', TaskController::class)->except(['destroy']);
+    // });
 
-    // Team Member 
-    Route::middleware(['role:team-member'])->group(function () {
-        Route::get('projects', [ProjectController::class, 'index'])->name('projects.index');
-        Route::get('projects/{project}', [ProjectController::class, 'show'])->name('projects.show');
-        Route::get('tasks', [TaskController::class, 'index'])->name('tasks.index');
-        Route::get('tasks/{task}', [TaskController::class, 'show'])->name('tasks.show');
-    });
+    // // Team Member 
+    // Route::middleware(['role:team-member'])->group(function () {
+    //     Route::get('projects', [ProjectController::class, 'index'])->name('projects.index');
+    //     Route::get('projects/{project}', [ProjectController::class, 'show'])->name('projects.show');
+    //     Route::get('tasks', [TaskController::class, 'index'])->name('tasks.index');
+    //     Route::get('tasks/{task}', [TaskController::class, 'show'])->name('tasks.show');
+    // });
 });
     
 

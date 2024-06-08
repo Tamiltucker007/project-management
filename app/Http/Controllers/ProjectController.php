@@ -8,13 +8,12 @@ use Illuminate\Http\Request;
 
 class ProjectController extends Controller
 {
-    // public function __construct()
-    // {
-    //     $this->middleware('permission:projects.index|projects.show', ['only' => ['index', 'show']]);
-    //     $this->middleware('permission:projects.create', ['only' => ['create', 'store']]);
-    //     $this->middleware('permission:projects.edit', ['only' => ['edit', 'update']]);
-    //     $this->middleware('permission:projects.destroy', ['only' => ['destroy']]);
-    // }
+    public function __construct()
+    {
+        $this->middleware('role:admin')->only(['index','create', 'store','edit', 'show', 'update','destroy']);
+        // $this->middleware('role:project-manager')->except(['destroy']);
+        // $this->middleware('role:team-member')->only(['index', 'show']);
+    }
 
     public function index()
     {
