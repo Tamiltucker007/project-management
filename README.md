@@ -3,6 +3,7 @@
 ### Requirements:
 - php version 8.1 or above.
 - composer install
+- php artisan key:generate
 - php artisan migrate
 - php artisan db:seed
 - npm install && npm run dev

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\DataTables\UserDataTable;
 use App\Http\Requests\UserRequest;
 use Illuminate\Http\Request;
 use App\Models\User;
@@ -9,11 +10,9 @@ use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Models\Role;
 class UserController extends Controller
 {
-    public function index()
+    public function index(UserDataTable $dataTable)
     {
-        $users = User::with('roles')->get();
-       
-        return view('users.index', compact('users'));
+        return $dataTable->render('users.index');
     }
 
     public function create()
@@ -65,10 +64,11 @@ class UserController extends Controller
     }
 
      
-    public function destroy(User $user)
+    public function destroy($id)
     {
+        $user = User::findOrFail($id);
         $user->delete();
-        
-        return redirect()->route('users.index')->with('success', 'User deleted successfully.');
+
+        return response()->json(['success' => 'User deleted successfully.']);
     }
 }
