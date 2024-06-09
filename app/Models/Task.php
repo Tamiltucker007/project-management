@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -10,7 +11,7 @@ class Task extends Model
     use HasFactory;
 
     protected $fillable = [
-        'project_id', 'assigned_to', 'title', 'description', 'deadline', 'is_completed',
+        'project_id',  'title', 'description', 'deadline', 'is_completed',
     ];
 
     public function project()
@@ -26,5 +27,10 @@ class Task extends Model
     public function users()
     {
         return $this->belongsToMany(User::class, 'task_user');  
+    }
+
+    public function getDeadlineAttribute($value)
+    {
+        return Carbon::parse($value)->format('d-M-Y');
     }
 }

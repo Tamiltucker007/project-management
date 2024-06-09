@@ -72,7 +72,8 @@ class UserDataTable extends DataTable
     public function getColumns(): array
     {
         return [
-            Column::make('id'),
+            Column::make('id')
+                ->title('S.No'),
             Column::make('name'),
             Column::make('email'),
             Column::make('roles')->title('Role'),

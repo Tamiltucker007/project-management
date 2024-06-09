@@ -6,8 +6,8 @@
             <div class="col-md-12">
                 <div class="card w-100">
                     <div class="card-header d-flex justify-content-between align-items-center">
-                        Users
-                        <a href="{{ route('users.create') }}" class="btn btn-sm btn-primary">Add New User</a>
+                        Tasks
+                        <a href="{{ route('tasks.create') }}" class="btn btn-sm btn-primary">Add New Tasks</a>
                     </div>
 
                     <div class="card-body">
@@ -25,5 +25,3 @@
 @push('scripts')
     <script src="{{ asset('js/common-delete.js') }}"></script>
 @endpush
-
-

@@ -2,7 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\DataTables\TaskDataTable;
+use App\Http\Requests\TaskRequest;
+use App\Models\Project;
+use App\Models\Task;
+use App\Models\User;
+use Spatie\Permission\Models\Role;
 
 class TaskController extends Controller
 {
@@ -11,59 +16,56 @@ class TaskController extends Controller
     {
         $this->middleware('role:admin|role:project-manager')->only(['index','create','store','edit', 'show', 'update','destory']);
     }
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+
+    public function index(TaskDataTable $dataTable)
     {
-        dd("hai");
+        return $dataTable->render('tasks.index');
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
-        //
+        $projects = Project::all(); 
+
+        return view('tasks.create', compact('projects'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
+    public function store(TaskRequest $request)
     {
-        //
+        $validatedData = $request->validated();
+        
+        Task::create($validatedData);
+
+        return redirect()->route('tasks.index')->with('success', 'Task created successfully.');
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(string $id)
     {
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(string $id)
     {
-        //
+        $task = Task::findOrFail($id);
+        $projects = Project::all();
+
+        return view('tasks.edit', compact('task', 'projects'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
+    public function update(TaskRequest $request, string $id)
     {
         //
+        $task = Task::findOrFail($id);
+        $task->update($request->validated());
+
+        return redirect()->route('tasks.index')->with('success', 'Task updated successfully.');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(string $id)
     {
-        //
+        $task = Task::findOrFail($id);
+        $task->delete();
+
+        return response()->json(['success' => 'Task deleted successfully.']);
+
     }
 }

@@ -68,7 +68,8 @@ class ProjectDataTable extends DataTable
     public function getColumns(): array
     {
         return [
-            Column::make('id'),
+            Column::make('id')
+                ->title('S.No'),
             Column::make('name'),
             Column::make('start_date'),
             Column::make('end_date'),

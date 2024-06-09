@@ -22,7 +22,15 @@ class TaskDataTable extends DataTable
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
         return (new EloquentDataTable($query))
-            ->addColumn('action', 'task.action')
+            ->addColumn('project', function (Task $task) {
+                return $task->project ? $task->project->name : 'N/A';
+            })
+            ->addColumn('action', function ($row) {
+                $editBtn = '<a href="'.route('tasks.edit', $row->id).'" class="btn btn-sm btn-primary">Edit</a>';
+                $deleteBtn = '<button class="btn btn-sm btn-danger ms-2 delete-btn" data-url="'.route('tasks.destroy', $row->id).'" data-name="'.$row->title.'">Delete</button>';
+                return $editBtn.' '.$deleteBtn;
+            })
+            ->rawColumns(['action'])
             ->setRowId('id');
     }
 
@@ -31,7 +39,7 @@ class TaskDataTable extends DataTable
      */
     public function query(Task $model): QueryBuilder
     {
-        return $model->newQuery();
+        return $model->newQuery()->with('project');
     }
 
     /**
@@ -62,9 +70,11 @@ class TaskDataTable extends DataTable
     public function getColumns(): array
     {
         return [
-            Column::make('id'),
-            Column::make('project_id'),
-            Column::make('user_id'),
+            Column::make('id')
+                ->title('S.No'),
+            Column::make('project')
+                  ->data('project')
+                  ->title('Project'),
             Column::make('title'),
             Column::make('deadline'),
             Column::computed('action')
