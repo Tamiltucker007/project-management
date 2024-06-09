@@ -31,13 +31,11 @@
                             </div>
                             <div class="mb-3">
                                 <label for="user_id" class="form-label">Assigned Team Member</label>
-                                <select class="form-select @error('user_id') is-invalid @enderror" aria-label="Default select example" id="user_id" name="user_id">
-                                    <option value="" selected>Select Team Member</option>
-                                    @if ($teamMembers)
+                                <select class="form-select @error('user_id') is-invalid @enderror" id="user_id" name="user_id[]" multiple>
+                                    <option value="" disabled>Select Team Member</option>
                                     @foreach ($teamMembers as $teamMember)
-                                        <option value="{{ $teamMember->id }}" {{ $project->user_id == $teamMember->id ? 'selected' : '' }}>{{ $teamMember->name }}</option>
+                                        <option value="{{ $teamMember->id }}" {{ in_array($teamMember->id, $project->teamMembers->pluck('id')->toArray()) ? 'selected' : '' }}>{{ $teamMember->name }}</option>
                                     @endforeach
-                                @endif
                                 </select>
                                 @error('user_id')
                                     <div class="invalid-feedback">{{ $message }}</div>
@@ -47,12 +45,12 @@
                                 <div class="col-md-6 mb-3">
                                     <label for="start_date" class="form-label">Start Date</label>
                                     <input type="date" class="form-control" id="start_date" name="start_date"
-                                        value="{{ $project->start_date }}">
+                                    value="{{ old('start_date', $project->start_date) }}">
                                 </div>
                                 <div class="col-md-6 mb-3">
                                     <label for="end_date" class="form-label">End Date</label>
                                     <input type="date" class="form-control" id="end_date" name="end_date"
-                                        value="{{ $project->end_date }}">
+                                    value="{{ old('end_date', $project->end_date) }}">
                                 </div>
                             </div>
                             <div class="mb-3">

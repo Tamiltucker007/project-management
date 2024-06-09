@@ -18,7 +18,7 @@ class ProjectRequest extends FormRequest
     {
         return [
             'name' => 'required|string|max:255',
-            'user_id' => 'required|string|max:255',
+            'user_id' => 'required|max:255',
             'start_date' => 'required|date',
             'end_date' => 'required|date|after:start_date',
             'description' => 'required|string|max:255',
