@@ -11,14 +11,6 @@ use Spatie\Permission\Models\Role;
 
 class TaskController extends Controller
 {
-
-    // public function __construct()
-    // {
-    //     $this->middleware('role:admin|role:project-manager')->only(['index','create','store','edit', 'show', 'update','destory']);
-    //     $this->middleware('role:team-memeber')->only(['tasks.index', 'task.show']);
-
-    // }
-
     public function index(TaskDataTable $dataTable)
     {
         return $dataTable->render('tasks.index');

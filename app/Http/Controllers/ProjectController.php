@@ -12,10 +12,6 @@ use Spatie\Permission\Models\Role;
 
 class ProjectController extends Controller
 {
-    // public function __construct()
-    // {
-    //     $this->middleware('role:team-member')->only(['index', 'show']);
-    // }
 
     public function index(ProjectDataTable $dataTable)
     {
