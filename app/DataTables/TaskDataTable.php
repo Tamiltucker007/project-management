@@ -26,9 +26,19 @@ class TaskDataTable extends DataTable
                 return $task->project ? $task->project->name : 'N/A';
             })
             ->addColumn('action', function ($row) {
+            // Check user role
+            $user = auth()->user();
+            $roles = $user->roles;
+            $isTeamMember = $roles->contains('name', 'team-member');
+
+            $viewBtn = '<a href="'.route('tasks.show', $row->id).'" class="btn btn-sm btn-success">View</a>';
+            if ($isTeamMember) {
+                return $viewBtn;
+            } else {
                 $editBtn = '<a href="'.route('tasks.edit', $row->id).'" class="btn btn-sm btn-primary">Edit</a>';
                 $deleteBtn = '<button class="btn btn-sm btn-danger ms-2 delete-btn" data-url="'.route('tasks.destroy', $row->id).'" data-name="'.$row->title.'">Delete</button>';
-                return $editBtn.' '.$deleteBtn;
+                return $viewBtn.' '.$editBtn.' '.$deleteBtn;
+            }
             })
             ->rawColumns(['action'])
             ->setRowId('id');

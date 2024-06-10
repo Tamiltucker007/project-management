@@ -12,10 +12,12 @@ use Spatie\Permission\Models\Role;
 class TaskController extends Controller
 {
 
-    public function __construct()
-    {
-        $this->middleware('role:admin|role:project-manager')->only(['index','create','store','edit', 'show', 'update','destory']);
-    }
+    // public function __construct()
+    // {
+    //     $this->middleware('role:admin|role:project-manager')->only(['index','create','store','edit', 'show', 'update','destory']);
+    //     $this->middleware('role:team-memeber')->only(['tasks.index', 'task.show']);
+
+    // }
 
     public function index(TaskDataTable $dataTable)
     {
@@ -38,9 +40,11 @@ class TaskController extends Controller
         return redirect()->route('tasks.index')->with('success', 'Task created successfully.');
     }
 
-    public function show(string $id)
+    public function show($id)
     {
-        //
+        $task = Task::with('project')->findOrFail($id);
+
+        return view('tasks.show', compact('task'));
     }
 
     public function edit(string $id)
@@ -53,7 +57,6 @@ class TaskController extends Controller
 
     public function update(TaskRequest $request, string $id)
     {
-        //
         $task = Task::findOrFail($id);
         $task->update($request->validated());
 

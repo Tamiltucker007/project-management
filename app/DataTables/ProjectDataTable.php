@@ -22,12 +22,20 @@ class ProjectDataTable extends DataTable
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
         return (new EloquentDataTable($query))
-        
         ->addColumn('action', function ($row) {
+            // Check user role
+            $user = auth()->user();
+            $roles = $user->roles;
+            $isTeamMember = $roles->contains('name', 'team-member');
             $viewBtn = '<a href="'.route('projects.show', $row->id).'" class="btn btn-sm btn-success">View</a>';
-            $editBtn = '<a href="'.route('projects.edit', $row->id).'" class="btn btn-sm btn-primary">Edit</a>';
-            $deleteBtn = '<button class="btn btn-sm btn-danger delete-btn" data-url="'.route('projects.destroy', $row->id).'" data-name="'.$row->name.'">Delete</button>';
-            return $viewBtn.' '.$editBtn.' '.$deleteBtn;
+
+            if ($isTeamMember) {
+                return $viewBtn;
+            } else {
+                $editBtn = '<a href="'.route('projects.edit', $row->id).'" class="btn btn-sm btn-primary">Edit</a>';
+                $deleteBtn = '<button class="btn btn-sm btn-danger delete-btn" data-url="'.route('projects.destroy', $row->id).'" data-name="'.$row->name.'">Delete</button>';
+                return $viewBtn.' '.$editBtn.' '.$deleteBtn;
+            }
         })
         
         ->rawColumns(['action','start_date', 'end_date'])
